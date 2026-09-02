@@ -1,0 +1,24 @@
+import sys
+from pathlib import Path
+
+import pytest
+
+
+STARTER_DIR = Path(__file__).resolve().parents[1]
+if str(STARTER_DIR) not in sys.path:
+    sys.path.insert(0, str(STARTER_DIR))
+
+
+@pytest.fixture
+def client():
+    import app as app_module
+
+    app_module.app.config.update(TESTING=True)
+    app_module.CURRENT['puzzle'] = None
+    app_module.CURRENT['solution'] = None
+
+    with app_module.app.test_client() as test_client:
+        yield test_client
+
+    app_module.CURRENT['puzzle'] = None
+    app_module.CURRENT['solution'] = None

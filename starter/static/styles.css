@@ -1,6 +1,21 @@
+:root {
+    --page-background: #f4f4f4;
+    --text-color: #333;
+    --board-background: #fff;
+    --cell-a: #fafafa;
+    --cell-b: #eaf5f6;
+    --prefilled-a: #e0e0e0;
+    --prefilled-b: #d5e4e5;
+    --cell-border: #bbb;
+    --major-border: #333;
+    --table-border: #ddd;
+    --table-header: #e3f2fd;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: var(--page-background);
+    color: var(--text-color);
     text-align: center;
     margin: 0;
     padding: 0;
@@ -8,14 +23,31 @@ body {
 
 h1 {
     margin-top: 30px;
-    color: #333;
+    color: var(--text-color);
+}
+
+.game-info {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+#difficulty {
+    font-size: 16px;
+    padding: 6px 8px;
+}
+
+#timer,
+#hint-count {
+    font-variant-numeric: tabular-nums;
 }
 
 #sudoku-board {
     display: inline-block;
     margin: 30px auto;
-    border: 4px solid #333;
-    background: #fff;
+    border: 4px solid var(--major-border);
+    background: var(--board-background);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
@@ -26,11 +58,11 @@ h1 {
 .sudoku-cell {
     width: 40px;
     height: 40px;
-    border: 1px solid #bbb;
+    border: 1px solid var(--cell-border);
     text-align: center;
     font-size: 20px;
     outline: none;
-    background: #fafafa;
+    background: var(--cell-a);
     transition: background 0.2s;
 }
 
@@ -39,9 +71,20 @@ h1 {
 }
 
 .sudoku-cell.prefilled {
-    background: #e0e0e0;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
+}
+
+.sudoku-cell.block-b {
+    background: var(--cell-b);
+}
+
+.sudoku-cell.block-a.prefilled {
+    background: var(--prefilled-a);
+}
+
+.sudoku-cell.block-b.prefilled {
+    background: var(--prefilled-b);
 }
 
 .sudoku-cell.incorrect {
@@ -58,13 +101,34 @@ h1 {
     border-bottom: 3px solid #333;
 }
 
+.sudoku-cell.conflict {
+    background: #ffcdd2;
+    border-color: #d32f2f;
+    box-shadow: inset 0 0 0 2px #d32f2f;
+}
+
+.sudoku-cell.hinted {
+    background: #fff3cd;
+    font-weight: bold;
+}
+
+#sudoku-board.board-disabled .sudoku-cell {
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
 .controls {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
     margin: 20px auto;
 }
 
 button {
     padding: 8px 18px;
-    margin: 0 8px;
+    margin: 0;
     font-size: 16px;
     border: none;
     background: #1976d2;
@@ -78,8 +142,55 @@ button:hover {
     background: #1565c0;
 }
 
+button:disabled {
+    background: #9e9e9e;
+    cursor: not-allowed;
+}
+
 #message {
-    margin-left: 20px;
     font-size: 16px;
     color: #d32f2f;
+}
+
+.leaderboard {
+    margin: 36px auto;
+    max-width: 720px;
+    padding: 0 16px;
+}
+
+.leaderboard h2 {
+    color: var(--text-color);
+}
+
+.leaderboard table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.leaderboard th,
+.leaderboard td {
+    border-bottom: 1px solid var(--table-border);
+    padding: 10px 8px;
+    text-align: left;
+}
+
+.leaderboard th {
+    background: var(--table-header);
+    color: var(--text-color);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-background: #1f2428;
+        --text-color: #f0f4f5;
+        --board-background: #252c31;
+        --cell-a: #2b3338;
+        --cell-b: #35454a;
+        --prefilled-a: #465158;
+        --prefilled-b: #506168;
+        --cell-border: #718087;
+        --major-border: #d7e0e3;
+        --table-border: #4b585e;
+        --table-header: #294957;
+    }
 }
